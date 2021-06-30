@@ -1,0 +1,14 @@
+FROM maven:3.6.3-jdk-8-openj9
+
+RUN mkdir /code
+ADD java-app /code
+WORKDIR /code
+
+CMD ["mvn", "clean", "package", "-B"]
+
+
+# docker build -t tmp -f Dockerfile.mvn .
+# docker run -v $PWD/java-app:/code tmp 
+# mvn -B -DskipTests clean package
+# mvn test
+# Building war: /code/target/SampleJava.war

@@ -1,0 +1,16 @@
+FROM tomcat:8-jre8
+
+COPY ./java-app/target/SampleJava.war /usr/local/tomcat/webapps/sree.war
+
+ENV WEB=V1
+
+# docker build -t tc -f Dockerfile.tomcat .
+# docker run -d -p 7081:8080 --name tc tc 
+# curl localhost:7081/sree/
+#<html>
+#<body>
+#<h1>Hello World!</h1>
+#<h2>Container ID: e0d2e348e61f</h2>
+#<h2>App Version: V1</h2>
+#</body>
+#</html>

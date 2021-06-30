@@ -1,0 +1,32 @@
+FROM maven:3.6.3-jdk-8-openj9 as build
+
+RUN mkdir /code
+ADD java-app /code
+WORKDIR /code
+
+RUN mvn clean package -B
+
+FROM tomcat:8-jre8
+
+# DEPLOY TO ROOT OF TOMCAT
+RUN rm -fr /usr/local/tomcat/webapps/ROOT
+RUN mkdir -p /usr/local/tomcat/webapps/ROOT
+COPY --from=build /code/target/SampleJava/ /usr/local/tomcat/webapps/ROOT
+
+# DEPLOY TO A FOLDER
+COPY --from=build /code/target/SampleJava.war /usr/local/tomcat/webapps/sree.war
+
+ENV WEB=V1
+
+
+# docker build -t tc -f Dockerfile.mvn-tomcat .
+# docker run -d -p 7081:8080 --name tc tc 
+# curl localhost:7081
+# curl localhost:7081/sree/
+#<html>
+#<body>
+#<h1>Hello World!</h1>
+#<h2>Container ID: e0d2e348e61f</h2>
+#<h2>App Version: V1</h2>
+#</body>
+#</html>
